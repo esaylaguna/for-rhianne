@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>For Rhianne♡</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <style>
+    body {
+      background-color: #ffe6eb;
+      font-family: 'Comic Sans MS', 'Poppins', cursive;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    /* PAGE WRAPPER */
+    .page {
+      min-height: 100svh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* CARD */
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 22px;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      width: 330px;
+      position: relative;
+
+      /* ENTRANCE ANIMATION */
+      animation: popIn 0.9s ease-out forwards;
+      opacity: 0;
+      transform: translateY(40px) scale(0.9);
+    }
+
+    @keyframes popIn {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    h1 {
+      color: #ff4d6d;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.05rem;
+      color: #555;
+      min-height: 50px;
+    }
+
+    img {
+      width: 180px;
+      margin: 15px 0;
+      transition: 0.3s;
+    }
+
+    .buttons {
+      position: relative;
+      height: 70px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 12px 22px;
+      font-size: 1rem;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #yes {
+      background-color: #ff6b81;
+      color: white;
+    }
+
+    #yes:hover {
+      transform: scale(1.05);
+    }
+
+    #no {
+      background-color: #adb5bd;
+      color: white;
+      position: absolute;
+      right: 0;
+    }
+
+    /* HEART CONFETTI */
+    .heart {
+      position: fixed;
+      color: #ff6b81;
+      font-size: 20px;
+      animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10vh);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="page">
+  <div class="card" id="card">
+    <h1 id="title">Hi baby 💕</h1>
+    <p id="text">I just wanted to say something hehe</p>
+
+    <img id="cat" src="https://media.tenor.com/jnINmglh4BIAAAAC/cute-cat.gif"/>
+
+    <div class="buttons">
+      <button id="yes">Next 👉</button>
+      <button id="no" style="display:none;">No 💔</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const title = document.getElementById("title");
+  const text = document.getElementById("text");
+  const yesBtn = document.getElementById("yes");
+  const noBtn = document.getElementById("no");
+  const cat = document.getElementById("cat");
+  const card = document.getElementById("card");
+
+  let step = 0;
+
+  const intro = [
+    {
+      title: "Hi baby Rhianne 💕",
+      text: "You know valentines is so near na no? 😳",
+      gif: "https://media.tenor.com/jnINmglh4BIAAAAC/cute-cat.gif"
+    },
+    {
+      title: "Sooo...",
+      text: "Medyo na nervous ko pero kinahanglan jud nako i-ask 🥺",
+      gif: "https://media.tenor.com/4V0bQbCqzWAAAAAC/cat-blush.gif"
+    },
+    {
+      title: "My Dearest Rhianne",
+      text: "Will you be my Valentine?💌",
+      gif: "https://media.tenor.com/3zH0oG5nHnMAAAAC/cute-cat.gif"
+    }
+  ];
+
+  const noMessages = [
+    "Ayaw ana baby 😭",
+    "Pleaseeee 🥺",
+    "Sakit kaayo 💔",
+    "Iiyak na yung cat oh 😿",
+    "Sure najud ka? 😔"
+  ];
+
+  const cryingCats = [
+    "gifs/knife-cat-cat-knife.gif",
+    "gifs/cat-gun.gif",
+    "gifs/cat-cry-kitten-cry.gif",
+    "gifs/cat-sad.gif"
+  ];
+
+  let noCount = 0;
+
+  yesBtn.addEventListener("click", () => {
+    step++;
+
+    if (step < intro.length) {
+      title.textContent = intro[step].title;
+      text.textContent = intro[step].text;
+      cat.src = intro[step].gif;
+
+      if (step === intro.length - 1) {
+        yesBtn.textContent = "Yes 💖";
+        noBtn.style.display = "inline-block";
+      }
+    } else {
+      card.innerHTML = `
+        <h1>YAYYY 😭💘</h1>
+        <p>Thank you baby 😽 Happy Valentines! 💕</p>
+        <img src="gifs/love-i-love-you.gif">
+      `;
+      startConfetti();
+    }
+  });
+
+  noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * 220 - 110;
+    const y = Math.random() * 220 - 110;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+    text.textContent = noMessages[noCount % noMessages.length];
+    cat.src = cryingCats[noCount % cryingCats.length];
+    noCount++;
+  });
+
+  function startConfetti() {
+    for (let i = 0; i < 40; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 2 + Math.random() * 3 + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 5000);
+    }
+  }
+</script>
+
+</body>
+</html>
